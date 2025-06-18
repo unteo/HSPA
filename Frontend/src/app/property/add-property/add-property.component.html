@@ -1,11 +1,15 @@
 <div class="container d-flex justify-content-center">
 <div class="card w-50 mt-5">
   <div class="card-header">
-    Add New Property
+    List your Property
   </div>
   <div class="card-body">
     <form (ngSubmit)='onSubmit(Form)' #Form="ngForm">
-      <div class="form-group col-12">
+<div>
+  <tabset>
+    <tab heading="Basic info" >Basic content
+
+        <div class="form-group col-12">
         <label for="name">Name</label>
         <input type="text" class="form-control" #propName="ngModel" 
         ngModel name="Name" required minlength="5">
@@ -27,9 +31,15 @@
         <input type="text" class="form-control" ngModel name="Price">
       </div>
       <div class="form-group col-12">
-        <button [disabled]="!Form.valid" type="submit" class="btn btn-primary mt-3 me-2">Save</button>
-        <button type="reset" class="btn btn-primary mt-3">Cancel</button>
+        <button type="button" class="btn btn-primary w-100 mt-3">Next</button>
       </div>
+    </tab>
+    <tab heading="Pricing Information">Pricing Information</tab>
+    <tab heading="Adress">Adress</tab>
+    <tab heading="Other Details">Other Details</tab>
+    <tab heading="Photos">Upload photos</tab>
+  </tabset>
+</div>
     </form>
   </div>
 </div>

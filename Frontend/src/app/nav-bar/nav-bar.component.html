@@ -23,17 +23,36 @@
 
       <!-- Login/Register moved to right -->
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
+        <li *ngIf="!loggedin()" class="nav-item">
           <a class="nav-link"
           routerLink="user/register"
           routerLinkActive="active"
           >Register</a>
         </li>
-        <li class="nav-item">
+
+        <li *ngIf="!loggedin()" class="nav-item">
           <a class="nav-link"
              routerLink="user/login"
-          routerLinkActive="active">Login</a>
+          routerLinkActive="active">
+          Login</a>
         </li>
+
+        <!-- <li *ngIf="loggedin()" class="nav-item">
+          <a class="nav-link" (click)="onLogout()">
+          Logout</a>
+        </li> -->
+        <li *ngIf="loggedin()" class="nav-item dropdown" dropdown>
+  <a class="nav-link dropdown-toggle text-light" dropdownToggle href="#" id="userDropdown" aria-expanded="false">
+    Welcome {{ loggedinUser }}
+  </a>
+  <ul *dropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+    <li><a class="dropdown-item" href="#"><i class="fas fa-tachometer-alt"></i> View Dashboard</a></li>
+    <li><a class="dropdown-item" href="#"><i class="far fa-user-circle"></i> My Profile</a></li>
+    <li><a class="dropdown-item" href="#"><i class="fas fa-key"></i> Change Password</a></li>
+    <li><a class="dropdown-item" (click)="onLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
+</li>
+
       </ul>
 
     </div>
