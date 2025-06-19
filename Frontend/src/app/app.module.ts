@@ -4,6 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { AppComponent } from './app.component';
 import { PropertyCardComponent } from './property/property-card/property-card.components';
@@ -53,6 +54,7 @@ const appRoutes: Routes =[
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(), 
     TabsModule.forRoot(),
+    ButtonsModule.forRoot(),
   ],
   providers: [
     HousingService,
