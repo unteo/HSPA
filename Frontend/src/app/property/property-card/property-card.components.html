@@ -11,8 +11,8 @@
             </li>
           </ul>
        </div> 
-        <div class="card-body p-3">
-    <h5 class="card-title fw-bold mb-2">{{property.BHK}} BHK {{property.PType}}</h5>
+        <div class="card-body p-1">
+    <h1 class="card-title fw-bold mb-2">{{property.BHK}} BHK {{property.PType}}</h1>
 
     <p class="mb-1 text-muted">
       in {{property.Name}}<span *ngIf="property.Name">,</span> {{property.City}}
@@ -24,8 +24,8 @@
 
     <hr class="my-2">
 
-    <p class="mb-0 fw-semibold">
-      Price: {{property.Price}} USD. | Area: {{property.BuiltArea}} Sq Ft
-    </p>
+    <h6 class="mb-0">Price: <span class="font-highlight">{{property.Price}} USD.</span>
+     | Area: <span class="font-highlight">{{property.BuiltArea}} Sq Ft</span>
+    </h6>
   </div>
      </div>
