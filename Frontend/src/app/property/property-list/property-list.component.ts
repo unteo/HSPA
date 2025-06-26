@@ -26,6 +26,7 @@ SellRent = 1;
         
       },
       error => {
+        console.log('httperror:');
         console.log(error);
       }
     );

@@ -1,10 +1,11 @@
-import { NgForOf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
-import { Iproperty } from 'src/app/model/iproperty';
 import { IPropertyBase } from 'src/app/model/ipropertybase';
+import { Property } from 'src/app/model/property';
+import { AlertifyService } from 'src/services/alertify.service';
+import { HousingService } from 'src/services/housing.service';
 
 @Component({
   selector: 'app-add-property',
@@ -17,7 +18,7 @@ export class AddPropertyComponent implements OnInit {
 
  addPropertyForm: FormGroup;
  nextClicked: boolean;
- addressReactiveForm: FormGroup;
+ property = new Property();
 
  //Will come from masters
  propertyTypes: Array<string> = ['House', 'Apartament', 'Duplex'];
@@ -44,17 +45,21 @@ export class AddPropertyComponent implements OnInit {
   }
 
  tmpProp= {}
-  constructor(private router : Router, private fb: FormBuilder) { }
+  constructor(
+    private router : Router,
+    private fb: FormBuilder,
+    private housingService: HousingService,
+    private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.CreateAddPropertyForm();
-    this.createAddressReactiveForm();
   }
 
   CreateAddPropertyForm(){
     this.addPropertyForm = this.fb.group({
     BasicInfo: this.fb.group({
-      SellRent: [1, Validators.required],
+      SellRent: [null, Validators.required],
+      BHK: [null, Validators.required],
       PType: [null, Validators.required],
       FType: [null, Validators.required],
       Name: [null, Validators.required],
@@ -63,13 +68,16 @@ export class AddPropertyComponent implements OnInit {
     PriceInfo: this.fb.group({
       Price: [null, Validators.required],
       BuiltArea: [null, Validators.required],
-      CarpetArea: [null, Validators.required],
-      Security: [null, Validators.required],
-      Maintenance: [null, Validators.required],
+      CarpetArea: [null],
+      Security: [null],
+      Maintenance: [null],
+      }),
+      AddressInfo: this.fb.group({
+         Addresses: this.fb.array([this.createAddressGroup()])
       }),
     OtherInfo: this.fb.group({
       RTM: [null,Validators.required],
-      PosessionOn: [null],
+      PossessionOn: [null],
       AOP: [null],
       Gated: [null],
       MainEntrance: [null],
@@ -80,25 +88,16 @@ export class AddPropertyComponent implements OnInit {
     })
   }
 
-   createAddressReactiveForm() {
-    this.addressReactiveForm = this.fb.group({
-      Addresses: this.fb.array([this.createAddressGroup()]) 
-    });
-  }
-
     createAddressGroup(): FormGroup {
     return this.fb.group({
       Address: [null, Validators.required],
       ZipCode: [null, [Validators.required,]], 
       TotalFloor: [null, [Validators.required, Validators.min(1)]],
       Floor: [null, [Validators.required, Validators.min(0)]],
-      Landmark: [null]
+      Landmark: [null],
     });
   }
 
-   get addresses(): FormArray {
-    return this.addressReactiveForm.get('Addresses') as FormArray;
-  }
 
    addAddress(): void {
     this.addresses.push(this.createAddressGroup());
@@ -107,8 +106,6 @@ export class AddPropertyComponent implements OnInit {
     removeAddress(index: number): void {
     if (this.addresses.length > 1) { 
       this.addresses.removeAt(index);
-    } else {
-      alert('Este necesară cel puțin o adresă.');
     }
   }
 
@@ -124,15 +121,18 @@ export class AddPropertyComponent implements OnInit {
         return this.addPropertyForm.controls.PriceInfo as FormGroup;
       }
 
-      // get AddressInfo() {
-      //   return this.addPropertyForm.controls.AddressInfo as FormGroup;
-      // }
+      get AddressInfo() {
+        return this.addPropertyForm.controls.AddressInfo as FormGroup;
+      }
 
       get OtherInfo() {
         return this.addPropertyForm.controls.OtherInfo as FormGroup;
       }
-  // #endregion
+      get addresses(): FormArray {
+        return this.addPropertyForm.get('AddressInfo.Addresses') as FormArray;
+      }
 
+  // #endregion
   //#region <Form Controls>
       get SellRent() {
         return this.BasicInfo.controls.SellRent as FormControl;
@@ -178,22 +178,6 @@ export class AddPropertyComponent implements OnInit {
         return this.PriceInfo.controls.Maintenance as FormControl;
       }
 
-      // get FloorNo() {
-      //   return this.AddressInfo.controls.FloorNo as FormControl;
-      // }
-
-      // get TotalFloor() {
-      //   return this.AddressInfo.controls.TotalFloor as FormControl;
-      // }
-
-      // get Address() {
-      //   return this.AddressInfo.controls.Address as FormControl;
-      // }
-
-      // get LandMark() {
-      //   return this.AddressInfo.controls.LandMark as FormControl;
-      // }
-
       get RTM() {
         return this.OtherInfo.controls.RTM as FormControl;
       }
@@ -226,40 +210,57 @@ onSubmit(){
     this.nextClicked = true;
   
     if(this.allTabsValid()){
-      console.log('Congrats, your property listed successfully on our website');
+      this.mapProperty();
+      this.housingService.addProperty(this.property);
+      this.alertify.success('Congrats, your property listed successfully on our website');
       console.log(this.addPropertyForm);
+
+      if(this.SellRent.value === '2'){
+        this.router.navigate(['/rent-property'])
+      }else {
+        this.router.navigate(['/']);
+      }
     }
     else {
-      console.log('Please review the form and provide all valid');
+      this.alertify.error('Please review the form and provide all valid');
     }
     console.log('Congrats, form Submitted');
     console.log('SellRent=' + this.addPropertyForm.value.BasicInfo.SellRent);
     console.log(this.addPropertyForm);
     console.log("--------------------");
-    //  console.log('Formularul principal (NgForm) value:', Form.value);
-    // console.log('Formularul de Adrese (Reactive Form) value:', this.addressReactiveForm.value);
+    
+  }
 
-    //  if (Form.valid && this.addressReactiveForm.valid) {
-    //   const ngFormData = Form.value;
-    //   const reactiveAddressData = this.addressReactiveForm.value;
+  mapProperty(): void {
 
-    //  const newProperty: Iproperty = {
-    //       Id: 0, 
-    //       SellRent: ngFormData.BasicInfo.SellRent,
-    //       Name: ngFormData.BasicInfo.Name,
-    //       PType: ngFormData.BasicInfo.propType,
-    //       FType: ngFormData.BasicInfo.FType,
-    //       Price: ngFormData.price,
-    //       BHK: ngFormData.BasicInfo.BHK,
-    //       BuiltArea: ngFormData.BuiltArea,
-    //       City: ngFormData.BasicInfo.City,
-    //       RTM: ngFormData.RTM, 
-    //       Description: ngFormData.Description,
-    //       Addresses: reactiveAddressData.Addresses 
-    //     };
+    this.property.Id = this.housingService.newPropID();
+    // --- Mapare din BasicInfo ---
+    this.property.SellRent = +this.SellRent.value;
+    this.property.BHK = this.BHK.value;
+    this.property.PType = this.PType.value;
+    this.property.FType = this.FType.value;
+    this.property.Name = this.Name.value;
+    this.property.City = this.City.value;
 
-    //     console.log('Obiectul final: ', newProperty);
-    //   };
+    // --- Mapare din PriceInfo ---
+    this.property.Price = this.Price.value;
+    this.property.Security = this.Security.value;
+    this.property.Maintenance = this.Maintenance.value;
+    this.property.BuiltArea = this.BuiltArea.value;
+    this.property.CarpetArea = this.CarpetArea.value;
+
+    // --- MApare din Address ---
+    this.property.Addresses = this.addPropertyForm.value.AddressInfo.Addresses;
+
+    // --- MApare din Other Details ---
+    this.property.RTM = this.RTM.value;
+    this.property.AOP = this.AOP.value;
+    this.property.Gated = this.Gated.value;
+    this.property.MainEntrance = this.MainEntrance.value;
+    this.property.Possession = this.PossessionOn.value;
+    this.property.Description = this.Description.value;
+
+    this.property.PostedOn = new Date().toString();
 
   }
 
@@ -274,10 +275,10 @@ onSubmit(){
       return false;
     }
 
-    // if(this.AddressInfo.invalid){
-    //   this.formTabs.tabs[2].active = true;
-    //   return false;
-    // }
+   if (this.AddressInfo.invalid) {
+    this.formTabs.tabs[2].active = true;
+    return false;
+  }
      
     if(this.OtherInfo.invalid){
       this.formTabs.tabs[3].active = true;
