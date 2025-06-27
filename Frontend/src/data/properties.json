@@ -11,13 +11,8 @@
     "BuiltArea":1200,
     "CarpetArea":900,
     "Image":"prop-1",
-    "Address":"6 Street",
-    "Address2":"Golf Course Road",
-    "Address3":"Near Bank of America",
     "City":"Atlanta",
     "Description":"Well Maintained builder floor available for rent at prime location. # property features- - 5 mins away from metro station - Gated community - 24*7 security. # property includes- - Big rooms (Cross ventilation & proper sunlight) - Drawing and dining area - Washrooms - Balcony - Modular kitchen - Near gym, market, temple and park - Easy commuting to major destination. Feel free to call With Query.",
-    "FloorNo":"3",
-    "TotalFloor":"3",
     "AOP":10,
     "Bathrooms":2,
     "MainEntrance":"East",
@@ -25,7 +20,15 @@
     "Security":0,
     "Maintenance":300,
     "Posession":"Ready to move",
-    "PostedOn":"01-Jan-2019"
+    "PostedOn":"01-Jan-2019",
+    "Addresses": [
+    {
+      "Address": "Strada Victoriei, Nr. 24, Bloc B1, Sc. A, Ap. 15",
+      "ZipCode": 110123,
+      "TotalFloor": 10,
+      "Floor": 4,
+      "Landmark": "Near Central Park"
+    }]
   },
 
   {
@@ -39,13 +42,8 @@
     "BuiltArea":1200,
     "CarpetArea":900,
     "Image":"prop-2",
-    "Address":"5 Street",
-    "Address2":"Golf Course Road",
-    "Address3":"Near Bank of America",
     "City":"New York",
     "Description":"2 BHK, 2 Bathroom, 1 Car Parking",
-    "FloorNo":"3",
-    "TotalFloor":"3",
     "AOP":10,
     "Bathrooms":2,
     "MainEntrace":"East",
@@ -53,7 +51,16 @@
     "Security":0,
     "Maintenance":300,
     "Posession":"Ready to move",
-    "PostedOn":"01-Jan-2019"
+    "PostedOn":"01-Jan-2019",
+     "Addresses": [
+    {
+      "Address": "5 Street, Golf Course Road",
+      "ZipCode": 10001,
+      "TotalFloor": 3,
+      "Floor": 3,
+      "Landmark": "Near Bank of America"
+    }
+  ]
   },
   {
     "Id":1,
@@ -66,13 +73,8 @@
     "BuiltArea":1200,
     "CarpetArea":900,
     "Image":"prop-3",
-    "Address":"5 Street",
-    "Address2":"Golf Course Road",
-    "Address3":"Near Bank of America",
     "City":"Canada",
     "Description":"2 BHK, 2 Bathroom, 1 Car Parking",
-    "FloorNo":"2",
-    "TotalFloor":"3",
     "AOP":5,
     "Bathrooms":2,
     "MainEntrace":"East",
@@ -80,7 +82,16 @@
     "Security":0,
     "Maintenance":300,
     "Posession":"Ready to move",
-    "PostedOn":"01-Jan-2019"
+    "PostedOn":"01-Jan-2019",
+     "Addresses": [
+    {
+      "Address": "5 Street, Golf Course Road",
+      "ZipCode": 10001,
+      "TotalFloor": 3,
+      "Floor": 3,
+      "Landmark": "Near Bank of America"
+    }
+   ]
   },
 
   {
@@ -94,13 +105,8 @@
     "BuiltArea":1200,
     "CarpetArea":900,
     "Image":"prop-4",
-    "Address":"15 Street",
-    "Address2":"Golf Course Road",
-    "Address3":"Near Bank of America",
     "City":"Canada",
     "Description":"2 BHK, 2 Bathroom, 1 Car Parking",
-    "FloorNo":"2",
-    "TotalFloor":"3",
     "AOP":10,
     "Bathrooms":2,
     "MainEntrace":"East",
@@ -108,7 +114,16 @@
     "Security":0,
     "Maintenance":300,
     "Posession":"Ready to move",
-    "PostedOn":"01-Jan-2019"
+    "PostedOn":"01-Jan-2019",
+       "Addresses": [
+    {
+      "Address": "5 Street, Golf Course Road",
+      "ZipCode": 10001,
+      "TotalFloor": 3,
+      "Floor": 3,
+      "Landmark": "Near Bank of America"
+    }
+   ]
   },
   {
     "Id":5,
@@ -121,13 +136,8 @@
     "BuiltArea":1200,
     "CarpetArea":900,
     "Image":"prop-1",
-    "Address":"18 Street",
-    "Address2":"Golf Course Road",
-    "Address3":"Near Bank of America",
     "City":"New York",
     "Description":"2 BHK, 2 Bathroom, 1 Car Parking",
-    "FloorNo":"1",
-    "TotalFloor":"3",
     "AOP":10,
     "Bathrooms":2,
     "MainEntrace":"East",
@@ -135,7 +145,16 @@
     "Security":0,
     "Maintenance":300,
     "Posession":"Ready to move",
-    "PostedOn":"01-Jan-2019"
+    "PostedOn":"01-Jan-2019",
+       "Addresses": [
+    {
+      "Address": "5 Street, Golf Course Road",
+      "ZipCode": 10001,
+      "TotalFloor": 3,
+      "Floor": 3,
+      "Landmark": "Near Bank of America"
+    }
+   ]
   },
 
   {
@@ -148,13 +167,8 @@
     "Price":5000,
     "BuiltArea":1200,
     "CarpetArea":900,
-    "Address":"1 Street",
-    "Address2":"Golf Course Road",
-    "Address3":"Near Bank of America",
     "City":"New York",
     "Description":"2 BHK, 2 Bathroom, 1 Car Parking",
-    "FloorNo":"0",
-    "TotalFloor":"3",
     "AOP":10,
     "Bathrooms":2,
     "MainEntrace":"East",
@@ -162,6 +176,15 @@
     "Security":0,
     "Maintenance":300,
     "Posession":"Ready to move",
-    "PostedOn":"01-Jan-2019"
+    "PostedOn":"01-Jan-2019",
+       "Addresses": [
+    {
+      "Address": "5 Street, Golf Course Road",
+      "ZipCode": 10001,
+      "TotalFloor": 3,
+      "Floor": 3,
+      "Landmark": "Near Bank of America"
+    }
+   ]
   }
 ]

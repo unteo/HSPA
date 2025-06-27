@@ -21,13 +21,17 @@ import { AlertifyService } from 'src/services/alertify.service';
 import { AuthService } from 'src/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { PropertyDetailResolverService } from './property/property-detail/property-detail-resolver.service';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 
 const appRoutes: Routes =[
  { path: '', component : PropertyListComponent },
  { path: 'rent-property', component : PropertyListComponent },
  { path: 'add-property', component : AddPropertyComponent },
- { path: 'property-detail/:id', component : PropertyDetailComponent },
+ { path: 'property-detail/:id',
+          component : PropertyDetailComponent,
+          resolve: {prp: PropertyDetailResolverService}},
  { path: 'user/login', component: UserLoginComponent},
  { path: 'user/register', component: UserRegisterComponent},
  { path: '**', component : PropertyListComponent },
@@ -57,12 +61,14 @@ const appRoutes: Routes =[
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    NgxGalleryModule
   ],
   providers: [
     HousingService,
     UserServiceService,
     AlertifyService,
-    AuthService
+    AuthService,
+    PropertyDetailResolverService
   ],
   bootstrap: [AppComponent]
 })
