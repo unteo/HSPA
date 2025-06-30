@@ -13,7 +13,7 @@ export class FilterPipe implements PipeTransform {
       }
     
       for ( const item of value){
-        if(item[propName] === filter){
+        if(item[propName] === filterString){
           resultArray.push(item);
         }
       }
