@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PropertyDetailResolverService } from './property/property-detail/property-detail-resolver.service';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { FilterPipe } from './Pipes/filter.pipe';
 
 
 const appRoutes: Routes =[
@@ -49,6 +50,7 @@ const appRoutes: Routes =[
     PropertyDetailComponent,
     UserRegisterComponent,
     UserLoginComponent,
+    FilterPipe,
    ],
   imports: [
     BrowserModule,

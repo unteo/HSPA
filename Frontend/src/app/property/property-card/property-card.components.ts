@@ -12,3 +12,5 @@ export class PropertyCardComponent{
  @Input() property: IPropertyBase;
  @Input() hideIcons: boolean;
 }
+
+
