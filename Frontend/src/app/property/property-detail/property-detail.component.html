@@ -92,16 +92,53 @@
         </tab>
        <tab heading="Address">
     <div *ngIf="property.Addresses && property.Addresses.length > 0; else noAddress">
-        
-        <div *ngFor="let address of property.Addresses; let i = index" class="address-block mb-4">
+
+        <div *ngFor="let address of property.Addresses; let i = index" class="address-block mb-4 border p-3">
             <h4>Address {{i + 1}}</h4>
             <hr>
-            <div class="row">
-                <div class="col-sm-12">
-                    <p><strong>Address: </strong> {{address.Address}}</p>
-                    <p><strong>ZipCode:</strong> {{address.ZipCode}}</p>
-                    <p><strong>City:</strong> {{property.City}}</p> <p><strong>Landmark:</strong> {{address.Landmark}}</p>
-                    <p><strong>Floor:</strong> {{address.Floor}} of {{address.TotalFloor}}</p>
+
+            <div *ngIf="editingAddressIndex !== i">
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>Address: </strong> {{address.Address}}</p>
+                        <p><strong>ZipCode:</strong> {{address.ZipCode}}</p>
+                        <p><strong>City:</strong> {{property.City}}</p>
+                        <p><strong>Landmark:</strong> {{address.Landmark}}</p>
+                        <p><strong>Floor:</strong> {{address.Floor}} of {{address.TotalFloor}}</p>
+                    </div>
+                </div>
+                <div class="mt-2"> 
+                <button class="btn btn-primary" (click)="startEdit(i)">Edit Address</button>
+
+                <button class="btn btn-danger ml-2" (click)="onDeleteAddress(i)">Delete</button>
+                </div>
+            </div>
+
+            <div *ngIf="editingAddressIndex === i">
+                <div class="form-group col-12">
+                    <label>Address</label>
+                    <input type="text" class="form-control" [(ngModel)]="editableAddress.Address">
+                </div>
+                <div class="form-group col-12">
+                    <label>ZipCode</label>
+                    <input type="number" class="form-control" [(ngModel)]="editableAddress.ZipCode">
+                </div>
+                <div class="form-group col-12">
+                    <label>Landmark</label>
+                    <input type="text" class="form-control" [(ngModel)]="editableAddress.Landmark">
+                </div>
+                <div class="form-group col-12">
+                    <label>Floor</label>
+                    <input type="number" class="form-control" [(ngModel)]="editableAddress.Floor">
+                </div>
+                <div class="form-group col-12">
+                    <label>Total Floors</label>
+                    <input type="number" class="form-control" [(ngModel)]="editableAddress.TotalFloor">
+                </div>
+
+                <div class="mt-3">
+                    <button class="btn btn-success" (click)="saveEdit()">Save Changes</button>
+                    <button class="btn btn-secondary ml-2" (click)="cancelEdit()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -111,7 +148,7 @@
     <ng-template #noAddress>
         <p>Nicio adresă disponibilă pentru această proprietate.</p>
     </ng-template>
-        </tab>
+</tab>
         <tab heading="Photos">
   
            <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
