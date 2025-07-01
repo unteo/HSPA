@@ -17,28 +17,9 @@ authUser(user: any){
 
 }
 
-/**
-   * Metoda pentru delogare. Șterge datele din localStorage.
-   */
-  logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userName');
-    this.alertify.success('You have been logged out!');
-  }
-
-  /**
-   * Metoda care verifică, în orice componentă, dacă există un utilizator logat.
-   * Se bazează pe prezența token-ului în localStorage.
-   */
   isLoggedIn(): boolean {
     return localStorage.getItem('token') !== null;
   }
 
-  /**
-   * Metoda care returnează numele utilizatorului logat,
-   * pentru a-l afișa (ex: "Welcome, John").
-   */
-  getLoggedInUsername(): string {
-    return localStorage.getItem('userName');
-  }
+  
 }

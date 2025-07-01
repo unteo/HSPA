@@ -57,36 +57,26 @@ getProperty(id: number){
     return this.http.get<Property[]>('data/properties.json');
   }
 
-  // METODA NOUĂ PENTRU ACTUALIZAREA ADRESEI
+ 
 
    updateAddress(propertyId: number, addressIndex: number, updatedAddress: IAddress) {
-    // Preluăm proprietățile salvate local
     const localProperties = localStorage.getItem('newProp');
 
     if (localProperties) {
-      // Convertim string-ul din localStorage într-un array de obiecte
       let propertiesArray: Property[] = JSON.parse(localProperties);
-
-      // Găsim indexul proprietății pe care dorim să o modificăm
       const propertyIndexToUpdate = propertiesArray.findIndex(p => p.Id === propertyId);
 
-      // Dacă am găsit proprietatea și adresa există
       if (propertyIndexToUpdate !== -1 && propertiesArray[propertyIndexToUpdate].Addresses[addressIndex]) {
 
-        // Actualizăm adresa la indexul specificat
         propertiesArray[propertyIndexToUpdate].Addresses[addressIndex] = updatedAddress;
-
-        // Salvăm înapoi în localStorage tot array-ul de proprietăți, acum modificat
         localStorage.setItem('newProp', JSON.stringify(propertiesArray));
-
-        console.log('Adresa a fost actualizată cu succes în localStorage!');
+        console.log('Address successfully updated in localStorage!');
       } else {
-        console.error('Proprietatea sau adresa nu a fost găsită în localStorage.');
+        console.error('Property or address not found in localStorage.');
       }
     }
   }
 
-  //METODA NOUA PENTRU STERGEREA UNEI ADRESE
   deleteAddress(propertyId: number, addressIndex: number) {
     const localProperties = localStorage.getItem('newProp');
 
@@ -94,16 +84,11 @@ getProperty(id: number){
       let propertiesArray: Property[] = JSON.parse(localProperties);
       const propertyIndexToUpdate = propertiesArray.findIndex(p => p.Id === propertyId);
 
-      // Verificăm dacă proprietatea și adresa există
       if (propertyIndexToUpdate !== -1 && propertiesArray[propertyIndexToUpdate].Addresses[addressIndex]) {
 
-        // Eliminăm adresa de la indexul specificat
-        // .splice(index, 1) înseamnă: de la 'index', șterge '1' element
         propertiesArray[propertyIndexToUpdate].Addresses.splice(addressIndex, 1);
 
-        // Salvăm înapoi în localStorage array-ul modificat
         localStorage.setItem('newProp', JSON.stringify(propertiesArray));
-
         console.log('Adresa a fost ștearsă cu succes din localStorage!');
       } else {
         console.error('Proprietatea sau adresa nu a fost găsită pentru ștergere.');
