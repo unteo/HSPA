@@ -6,6 +6,7 @@ import {NgxGalleryOptions} from '@kolkov/ngx-gallery';
 import {NgxGalleryImage} from '@kolkov/ngx-gallery';
 import {NgxGalleryAnimation} from '@kolkov/ngx-gallery';
 import { IAddress } from 'src/app/model/iaddress';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-property-detail',
@@ -18,13 +19,14 @@ property = new Property;
 galleryOptions: NgxGalleryOptions[];
 galleryImages: NgxGalleryImage[];
 
-//variabile pentru starea de editare
 editingAddressIndex: number | null = null;
 editableAddress: IAddress = null;
+ isUserLoggedIn = false;
 
   constructor( private route : ActivatedRoute,
   private router : Router,
-  private housingService: HousingService) { }
+  private housingService: HousingService,
+  private authService : AuthService) { }
 
   ngOnInit() {
     this.propertyId = +this.route.snapshot.params['id'];
@@ -34,17 +36,9 @@ editableAddress: IAddress = null;
       }
     );
 
+    this.isUserLoggedIn = this.authService.isLoggedIn();
    
-  //   this.route.params.subscribe(
-  //   (params) => {
-  //     this.propertyId = +params['id'];
-  //     this.housingService.getProperty(this.propertyId).subscribe(
-  //     (data: Property) => {
-  //         this.property = data;
-  //       }
-  //     )
-  //   }
-  // );
+
    this.galleryOptions = [
       {
         width: '100%',
@@ -87,36 +81,24 @@ editableAddress: IAddress = null;
   }  
    startEdit(index: number): void {
     this.editingAddressIndex = index;
-    // Creăm o copie a obiectului pentru a evita modificarea directă înainte de salvare
-    // Acest lucru previne actualizarea automată a afișajului în caz de anulare
     this.editableAddress = JSON.parse(JSON.stringify(this.property.Addresses[index]));
   }
    saveEdit(): void {
     if (this.editableAddress && this.editingAddressIndex !== null) {
-      // 1. Apelăm serviciul pentru a salva datele în localStorage
       this.housingService.updateAddress(this.property.Id, this.editingAddressIndex, this.editableAddress);
-
-      // 2. Actualizăm datele și în componenta locală pentru a reflecta imediat schimbarea
       this.property.Addresses[this.editingAddressIndex] = this.editableAddress;
-
-      // 3. Resetăm starea de editare
       this.cancelEdit();
     }
   }
 
-   // -- START: Metoda pentru ștergere --
   onDeleteAddress(index: number): void {
-    // Cerem confirmare de la utilizator
-    const confirmation = confirm('Sunteți sigur că doriți să ștergeți această adresă? Acțiunea este ireversibilă.');
+  
+    const confirmation = confirm('Are you sure you want to delete this address? This action cannot be undone.');
     
     if (confirmation) {
-      // 1. Apelăm serviciul pentru a șterge adresa din localStorage
       this.housingService.deleteAddress(this.property.Id, index);
-
-      // 2. Actualizăm array-ul local pentru a reflecta schimbarea în UI imediat
       this.property.Addresses.splice(index, 1);
-
-      console.log(`Adresa de la indexul ${index} a fost ștearsă.`);
+      console.log(`Address at index ${index} was deleted.`);
     }
   }
 
@@ -124,5 +106,4 @@ editableAddress: IAddress = null;
     this.editingAddressIndex = null;
     this.editableAddress = null;
   }
-  // -- SFÂRȘIT: Metode pentru editare --
 }
