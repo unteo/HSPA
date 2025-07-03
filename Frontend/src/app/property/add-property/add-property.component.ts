@@ -23,6 +23,7 @@ export class AddPropertyComponent implements OnInit {
  //Will come from masters
  propertyTypes: Array<string> = ['House', 'Apartament', 'Duplex'];
  furnishedTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
+ cityList: any[];
 
  propertyView: IPropertyBase = {
   Id: null,
@@ -33,7 +34,7 @@ export class AddPropertyComponent implements OnInit {
   FType: null,
   BHK: null,
   BuiltArea: null,
-  City: null,
+  City: '',
   RTM: null
  };
 
@@ -53,6 +54,10 @@ export class AddPropertyComponent implements OnInit {
 
   ngOnInit() {
     this.CreateAddPropertyForm();
+    this.housingService.getAllCities().subscribe(data =>{
+      this.cityList = data;
+      console.log(data);
+    })
   }
 
   CreateAddPropertyForm(){
@@ -91,7 +96,7 @@ export class AddPropertyComponent implements OnInit {
     createAddressGroup(): FormGroup {
     return this.fb.group({
       Address: [null, Validators.required],
-      ZipCode: [null, [Validators.required,]], 
+      ZipCode: [null, [Validators.required,]],
       TotalFloor: [null, [Validators.required, Validators.min(1)]],
       Floor: [null, [Validators.required, Validators.min(0)]],
       Landmark: [null],
@@ -104,13 +109,13 @@ export class AddPropertyComponent implements OnInit {
   }
 
     removeAddress(index: number): void {
-    if (this.addresses.length > 1) { 
+    if (this.addresses.length > 1) {
       this.addresses.removeAt(index);
     }
   }
 
 
-  
+
 //#region <Getter Methods>
  // #region <FormGroups>
       get BasicInfo() {
@@ -204,11 +209,11 @@ export class AddPropertyComponent implements OnInit {
 
   //#endregion
 //#endregion
-  
+
 onSubmit(){
 
     this.nextClicked = true;
-  
+
     if(this.allTabsValid()){
       this.mapProperty();
       this.housingService.addProperty(this.property);
@@ -228,7 +233,7 @@ onSubmit(){
     console.log('SellRent=' + this.addPropertyForm.value.BasicInfo.SellRent);
     console.log(this.addPropertyForm);
     console.log("--------------------");
-    
+
   }
 
   mapProperty(): void {
@@ -279,7 +284,7 @@ onSubmit(){
     this.formTabs.tabs[2].active = true;
     return false;
   }
-     
+
     if(this.OtherInfo.invalid){
       this.formTabs.tabs[3].active = true;
       return false;

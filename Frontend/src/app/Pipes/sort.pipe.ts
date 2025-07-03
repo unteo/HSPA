@@ -14,6 +14,8 @@ let multiplier = 1;
 if(sortDirection === 'desc'){
   multiplier = -1;
 }
+
+if(value) {
 value.sort((a: any, b: any) => {
   if(a[sortField] < b[sortField]){
     return -1 * multiplier;
@@ -26,4 +28,5 @@ value.sort((a: any, b: any) => {
 
     return value;
   }
+}
 }

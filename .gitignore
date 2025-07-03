@@ -1,0 +1,7 @@
+WebAPI/appsettings.json
+bin/
+obj/
+.vs/
+*.user
+*.suo
+WebAPI/WebAPI.sln
