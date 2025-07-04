@@ -9,3 +9,6 @@ WebAPI/appsettings.Development.json
 WebAPI/Startup.cs
 WebAPI/Migrations/20250704064952_AddLastUpdatedFields.Designer.cs
 WebAPI/Migrations/20250704064952_AddLastUpdatedFields.cs
+WebAPI/Startup.cs
+WebAPI/Migrations/20250704081455_AddCountryColumn.Designer.cs
+WebAPI/Migrations/20250704081455_AddCountryColumn.cs
