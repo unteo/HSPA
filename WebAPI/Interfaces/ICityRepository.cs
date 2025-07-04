@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using WebAPI.Models;
 
-namespace WebAPI.Data.Repository
+namespace WebAPI.Interfaces
 {
     public interface ICityRepository
     {
@@ -12,7 +12,6 @@ namespace WebAPI.Data.Repository
 
         void DeleteCity(int cityId);
 
-        Task<bool> SaveAsync();  
     }
 
 }
