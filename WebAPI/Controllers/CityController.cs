@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Dtos;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 
@@ -11,25 +17,40 @@ namespace WebAPI.Controllers
     {
         
         private readonly IUnitOfWork uow;
+        private readonly IMapper mapper;    
 
-        public CityController( IUnitOfWork uow)
+        public CityController( IUnitOfWork uow, IMapper mapper )
         {
             this.uow = uow;
+            this.mapper = mapper;
         }
         // GET: api/City
         [HttpGet]
         public async Task<IActionResult> GetCities()
         {
            var cities = await uow.CityRepository.GetCitiesAsync();
-            return Ok(cities);
+
+            var citiesDto = mapper.Map<IEnumerable<CityDto>>(cities);
+
+            return Ok(citiesDto);
         }
 
 
         [HttpPost("post")]
         //Post api/city/post --Post the data in Json Format
 
-        public async Task<IActionResult> AddCity(City city)
+        public async Task<IActionResult> AddCity(CityDto cityDto)
         {
+            var city = mapper.Map<City>(cityDto);
+
+            city.LastUpdatedBy = 1;
+            city.LastUpdatedOn = DateTime.Now;
+            //var city = new City
+            //{
+            //    Name = cityDto.Name,
+            //    LastUpdatedBy = 1,
+            //    LastUpdatedOn = DateTime.Now
+            //};
 
             uow.CityRepository.AddCity(city);
             await uow.SaveAsync();
