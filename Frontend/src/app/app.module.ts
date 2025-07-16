@@ -16,7 +16,6 @@ import { AddPropertyComponent } from './property/add-property/add-property.compo
 import { PropertyDetailComponent } from './property/property-detail/property-detail.component';
 import { UserRegisterComponent } from './user/user-register/user-register.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
-import { UserServiceService } from 'src/services/user-service.service';
 import { AlertifyService } from 'src/services/alertify.service';
 import { AuthService } from 'src/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +24,9 @@ import { PropertyDetailResolverService } from './property/property-detail/proper
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FilterPipe } from './Pipes/filter.pipe';
 import { SortPipe } from './Pipes/sort.pipe';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { GraphComponent } from 'src/app/Graph/graph/graph.component';
+
 
 const appRoutes: Routes =[
  { path: '', component : PropertyListComponent },
@@ -35,13 +37,14 @@ const appRoutes: Routes =[
           resolve: {prp: PropertyDetailResolverService}},
  { path: 'user/login', component: UserLoginComponent},
  { path: 'user/register', component: UserRegisterComponent},
+{ path: 'graph', component: GraphComponent },
  { path: '**', component : PropertyListComponent },
 
 
 ]
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     PropertyCardComponent,
     PropertyListComponent,
@@ -51,7 +54,9 @@ const appRoutes: Routes =[
     UserRegisterComponent,
     UserLoginComponent,
     FilterPipe,
-    SortPipe
+    SortPipe,
+    GraphComponent,
+
    ],
   imports: [
     BrowserModule,
@@ -60,15 +65,15 @@ const appRoutes: Routes =[
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
-    BsDropdownModule.forRoot(), 
+    BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgxGalleryModule
+    NgxGalleryModule,
+    NgxGraphModule
   ],
   providers: [
     HousingService,
-    UserServiceService,
     AlertifyService,
     AuthService,
     PropertyDetailResolverService

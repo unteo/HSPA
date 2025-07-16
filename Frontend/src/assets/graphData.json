@@ -1,0 +1,17 @@
+{
+  "nodes": [
+    { "id": "1", "label": "John" },
+    { "id": "2", "label": "Jane" },
+    { "id": "3", "label": "Jack" },
+    { "id": "4", "label": "Jill" },
+    { "id": "5", "label": "Joe" },
+    { "id": "6", "label": "Jim" }
+  ],
+  "links": [
+    { "source": "3", "target": "1", "label": "Legătură 1" },
+    { "source": "3", "target": "6", "label": "Legătură 2" },
+    { "source": "1", "target": "2", "label": "Legătură 3" },
+    { "source": "1", "target": "5", "label": "Legătură 4" },
+    { "source": "2", "target": "4", "label": "Legătură B" }
+  ]
+}

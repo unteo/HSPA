@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +13,9 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CityController : ControllerBase
+    [Authorize]
+   
+    public class CityController : BaseController
     {
         
         private readonly IUnitOfWork uow;
@@ -27,6 +28,8 @@ namespace WebAPI.Controllers
         }
         // GET: api/City
         [HttpGet]
+
+  [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
            var cities = await uow.CityRepository.GetCitiesAsync();
@@ -52,6 +55,29 @@ namespace WebAPI.Controllers
 
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
+        {
+        
+            if (id != cityDto.Id)
+                return BadRequest("Update not allowed");
+
+            var cityFromDb = await uow.CityRepository.FindCity(id);
+           
+            if (cityFromDb == null)
+                return BadRequest("Update not allowed");
+
+            cityFromDb.LastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            throw new Exception("Some unknown error occurred");
+
+            mapper.Map(cityDto, cityFromDb);
+            await uow.SaveAsync();
+            return StatusCode(200);
+        }
+
+
+
+        [HttpPut("updateCityName/{id}")]
+        public async Task<IActionResult> UpdateCity(int id, CityUpdateDto cityDto)
         {
             var cityFromDb = await uow.CityRepository.FindCity(id);
             cityFromDb.LastUpdatedBy = 1;

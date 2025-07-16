@@ -2,9 +2,9 @@ import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { EmailValidator, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ObjectUnsubscribedError, Observable } from 'rxjs';
-import { UserServiceService } from 'src/services/user-service.service';
-import { User } from 'src/app/model/user';
+import { UserForLogin, UserForRegister } from 'src/app/model/user';
 import { AlertifyService } from 'src/services/alertify.service';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-user-register',
@@ -13,10 +13,10 @@ import { AlertifyService } from 'src/services/alertify.service';
 })
 export class UserRegisterComponent implements OnInit {
 registrationForm: FormGroup;
-user: User;
+user: UserForRegister;
 userSubmitted: boolean;
   constructor(private fb: FormBuilder,
-              private userService: UserServiceService,
+              private authService: AuthService,
               private alertify: AlertifyService) { }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ userSubmitted: boolean;
       password : [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword : [null, [Validators.required]],
       mobile : [null,[Validators.required, Validators.maxLength(10)]]
-    },{validators: this.passwordMatchingValidator}); 
+    },{validators: this.passwordMatchingValidator});
   }
 
   passwordMatchingValidator(fg: FormGroup): Validators{
@@ -51,16 +51,23 @@ userSubmitted: boolean;
     this.userSubmitted = true;
     if(this.registrationForm.valid){
       //this.user = Object.assign(this.user, this.registrationForm.value);
-        this.userService.addUser(this.userData());
-        this.registrationForm.reset();
-        this.userSubmitted = false;
-        this.alertify.success('Congrats, you are successfully registered');
-    }else{
-       this.alertify.error('Kindly provide the required files');
-    }    
+        this.authService.registeUser(this.userData()).subscribe(()=>
+        {
+          this.onReset();
+          this.alertify.success("Congrats, youare successfully registered");
+        },error => {
+          console.log(error);
+          this.alertify.error(error.error);
+        });
+       }
   }
 
-    userData():User {
+   onReset() {
+        this.userSubmitted = false;
+        this.registrationForm.reset();
+    }
+
+    userData():UserForRegister {
       return this.user = {
         userName: this.userName.value,
         email: this.email.value,
