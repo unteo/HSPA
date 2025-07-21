@@ -14,7 +14,7 @@ using WebAPI.Models;
 namespace WebAPI.Controllers
 {
     [Authorize]
-   
+
     public class CityController : BaseController
     {
         
@@ -29,7 +29,8 @@ namespace WebAPI.Controllers
         // GET: api/City
         [HttpGet]
 
-  [AllowAnonymous]
+        [AllowAnonymous]
+        //[Authorize(Policy = "CompanyPolicy")]
         public async Task<IActionResult> GetCities()
         {
            var cities = await uow.CityRepository.GetCitiesAsync();
@@ -41,6 +42,7 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("post")]
+
         //Post api/city/post --Post the data in Json Format
 
         public async Task<IActionResult> AddCity(CityDto cityDto)

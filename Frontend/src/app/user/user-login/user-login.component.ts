@@ -28,18 +28,12 @@ export class UserLoginComponent implements OnInit {
         const user = response;
       localStorage.setItem('token', user.token);
       localStorage.setItem('userName', user.userName);
+
+      const companyId = this.authService.getCompanyId();
+      console.log('CompanyId:', companyId);
       this.alertyfy.success('Login Succsessful');
       this.router.navigate(['/']);
-      },error => {
-        console.log(error);
-        this.alertyfy.error(error.error);
       }
     );
-    // if(token){
-    //
-    // }else
-    // {
-    //   this.alertyfy.error('User id or password is wrong');
-    // }
   }
 }

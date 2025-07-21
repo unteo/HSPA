@@ -51,13 +51,10 @@ userSubmitted: boolean;
     this.userSubmitted = true;
     if(this.registrationForm.valid){
       //this.user = Object.assign(this.user, this.registrationForm.value);
-        this.authService.registeUser(this.userData()).subscribe(()=>
+        this.authService.registerUser(this.userData()).subscribe(()=>
         {
           this.onReset();
           this.alertify.success("Congrats, youare successfully registered");
-        },error => {
-          console.log(error);
-          this.alertify.error(error.error);
         });
        }
   }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -24,8 +24,9 @@ import { PropertyDetailResolverService } from './property/property-detail/proper
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FilterPipe } from './Pipes/filter.pipe';
 import { SortPipe } from './Pipes/sort.pipe';
-import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { TreeModule } from 'primeng/tree';
 import { GraphComponent } from 'src/app/Graph/graph/graph.component';
+import { HttpErrorInterceptorService } from 'src/services/httperor-interceptor.service';
 
 
 const appRoutes: Routes =[
@@ -57,6 +58,7 @@ const appRoutes: Routes =[
     SortPipe,
     GraphComponent,
 
+
    ],
   imports: [
     BrowserModule,
@@ -70,9 +72,16 @@ const appRoutes: Routes =[
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
     NgxGalleryModule,
-    NgxGraphModule
+    TreeModule
+
+
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass : HttpErrorInterceptorService,
+      multi: true
+    },
     HousingService,
     AlertifyService,
     AuthService,

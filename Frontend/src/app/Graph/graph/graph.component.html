@@ -1,38 +1,6 @@
-
-
-<p style="color: blue; font-size: 20px;">Graph Test Page - If you see this, GraphComponent is loaded.</p>
-
-<div class="ngx-graph-container" style="border: 2px solid orange; background-color: #e0ffe0; height: 300px; width: 100%;">
-  <ngx-graph
-    [nodes]="nodes"
-    [links]="links"
-    [view]="view"
-    [curve]="curve"
-    [autoZoom]="true"   [autoCenter]="true"
-  >
-    <ng-template #nodeTemplate let-node>
-      <svg:g class="node">
-        <circle r="15" fill="red" stroke="darkred" stroke-width="2"></circle>
-        <text fill="white" font-size="10px" text-anchor="middle" alignment-baseline="middle">
-          {{ node.label }}
-        </text>
-      </svg:g>
-    </ng-template>
-
-    <ng-template #linkTemplate let-link>
-      <svg:g class="link">
-        <path
-          class="line"
-          stroke="blue"
-          stroke-width="3"
-          fill="none"
-          marker-end="url(#arrow)"
-          [attr.d]="link.path"
-        ></path>
-        <text fill="green" font-size="8px" text-anchor="middle" alignment-baseline="middle">
-          {{ link.label }}
-        </text>
-      </svg:g>
-    </ng-template>
-  </ngx-graph>
-</div>
+<p-tree
+  [value]="usersTree"
+  selectionMode="single"
+  [(selection)]="selectedFile"
+  (onNodeSelect)="nodeSelect($event)">
+</p-tree>

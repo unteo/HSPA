@@ -7,6 +7,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Dtos;
+using WebAPI.Errors;
+using WebAPI.Extensions;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 
@@ -29,9 +31,14 @@ namespace WebAPI.Controllers
         {
             var user = await uow.UserRepository.Authenticate(loginReq.UserName, loginReq.Password); 
 
+            ApiError apiError = new ApiError();
+
             if(user == null)
             {
-                return Unauthorized("Invalid User Id or Password");
+                apiError.ErrorCode = Unauthorized().StatusCode;
+                apiError.ErrorMessage = "Invalid user name or password";
+                apiError.ErrorDetails = "This error appear when provided user id or password does not exists";
+                return Unauthorized(apiError);
             }
 
             var loginRes = new LoginResDto();
@@ -44,9 +51,21 @@ namespace WebAPI.Controllers
 
         public async Task<IActionResult> Register(LoginReqDto loginReq)
         { 
-            if(await uow.UserRepository.UserAlreadyExists(loginReq.UserName))
-                return BadRequest("User alreay exists, please try something else");
+            ApiError apiError = new ApiError();
 
+            if(loginReq.UserName.IsEmpty() || loginReq.Password.IsEmpty()){
+               apiError.ErrorCode = BadRequest().StatusCode;
+               apiError.ErrorMessage = "User name and password can not be blank";
+               return BadRequest(apiError);
+            }
+
+            if (await uow.UserRepository.UserAlreadyExists(loginReq.UserName))
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "User alreay exists, please try something else ";
+                return BadRequest(apiError);
+            }
+              
             uow.UserRepository.Register(loginReq.UserName, loginReq.Password);
             await uow.SaveAsync();
             return StatusCode(201);
@@ -60,7 +79,8 @@ namespace WebAPI.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("CompanyId", user.CompanyId.ToString())
             };
 
             var signinCredentials = new SigningCredentials(

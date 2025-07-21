@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserForLogin, UserForRegister } from 'src/app/model/user';
 import { environment } from 'src/environments/environment';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ authUser(user: UserForLogin){
 
 }
 
-registeUser(user : UserForRegister) {
+registerUser(user : UserForRegister) {
   return this.http.post(this.baseUrl + '/account/register', user);
 }
 
@@ -26,5 +27,13 @@ registeUser(user : UserForRegister) {
     return localStorage.getItem('token') !== null;
   }
 
+  getCompanyId(): string | null {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decoded: any = jwtDecode(token);
+    return decoded.CompanyId || null;
+  }
+  return null;
+}
 
 }

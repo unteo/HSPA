@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebAPI.Services;
+using WebAPI.Policies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI
 {
@@ -40,6 +42,8 @@ namespace WebAPI
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<IAuthorizationHandler, CompanyHandler>();
+
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -55,6 +59,12 @@ namespace WebAPI
 
                     };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CompanyPolicy", policy =>
+                  policy.Requirements.Add(new CompanyRequirement(1)));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

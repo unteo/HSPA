@@ -17,6 +17,8 @@ namespace WebAPI.Models
 
         public int? FatherId { get; set; }
 
+        public int CompanyId { get; set; }
+
     }
 
 

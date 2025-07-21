@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.2.14",
+    "@angular/cdk": "^11.2.13",
     "@angular/common": "~11.2.14",
     "@angular/compiler": "~11.2.14",
     "@angular/core": "~11.2.14",
@@ -21,11 +22,13 @@
     "@angular/router": "~11.2.14",
     "@kolkov/ngx-gallery": "^1.2.4",
     "@swimlane/ngx-charts": "^17.0.1",
-    "@swimlane/ngx-graph": "^6.2.0",
     "alertifyjs": "^1.14.0",
     "bootstrap": "^4.6.2",
     "d3": "^5.16.0",
+    "jwt-decode": "^4.0.0",
     "ngx-bootstrap": "^5.6.1",
+    "primeicons": "^7.0.0",
+    "primeng": "^11.4.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
