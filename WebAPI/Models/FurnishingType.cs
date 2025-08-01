@@ -1,6 +1,11 @@
-﻿namespace WebAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebAPI.Models
 {
-    public class FurnishingType
+    public class FurnishingType : BaseEntity
     {
+        [Required]
+        public string Name { get; set; }
+        
     }
 }

@@ -37,7 +37,7 @@ editableAddress: IAddress = null;
     );
 
     this.isUserLoggedIn = this.authService.isLoggedIn();
-   
+
 
    this.galleryOptions = [
       {
@@ -77,26 +77,26 @@ editableAddress: IAddress = null;
       }
     ];
 
-  
-  }  
+
+  }
    startEdit(index: number): void {
     this.editingAddressIndex = index;
     this.editableAddress = JSON.parse(JSON.stringify(this.property.Addresses[index]));
   }
    saveEdit(): void {
     if (this.editableAddress && this.editingAddressIndex !== null) {
-      this.housingService.updateAddress(this.property.Id, this.editingAddressIndex, this.editableAddress);
+      this.housingService.updateAddress(this.property.id, this.editingAddressIndex, this.editableAddress);
       this.property.Addresses[this.editingAddressIndex] = this.editableAddress;
       this.cancelEdit();
     }
   }
 
   onDeleteAddress(index: number): void {
-  
+
     const confirmation = confirm('Are you sure you want to delete this address? This action cannot be undone.');
-    
+
     if (confirmation) {
-      this.housingService.deleteAddress(this.property.Id, index);
+      this.housingService.deleteAddress(this.property.id, index);
       this.property.Addresses.splice(index, 1);
       console.log(`Address at index ${index} was deleted.`);
     }

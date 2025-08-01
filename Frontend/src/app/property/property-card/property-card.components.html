@@ -1,7 +1,7 @@
   <div class="card shadow h-100" style="max-width: 300px;">
        <div class= "card-img-wrapper">
-          <img *ngIf="property.Image" class="card-img-top" src="assets/images/{{property.Image}}.jpg">
-          <img *ngIf="!property.Image" class="card-img-top" src="assets/images/house_default.jpg">
+          <img *ngIf="property.image" class="card-img-top" src="assets/images/{{property.Image}}.jpg">
+          <img *ngIf="!property.image" class="card-img-top" src="assets/images/house_default.jpg">
           <ul *ngIf="!hideIcons" class="list-inline text-center member-icons animate">
             <li class="list-inline-item">
               <button class="btn btn-primary" routerLink="/property-detail/{{property.Id}}"><i class="fa-solid fa-pen"></i></button>
@@ -10,22 +10,22 @@
               <button class="btn btn-primary" ><i class="fa-solid fa-address-book"></i></button>
             </li>
           </ul>
-       </div> 
+       </div>
         <div class="card-body p-1">
-    <h1 class="card-title fw-bold mb-2">{{property.BHK}} BHK {{property.PType}}</h1>
+    <h1 class="card-title fw-bold mb-2">{{property.bhk}} BHK {{property.propertyType}}</h1>
 
     <p class="mb-1 text-muted">
-      in {{property.Name}}<span *ngIf="property.Name">,</span> {{property.City}}
+      in {{property.name}}<span *ngIf="property.name">,</span> {{property.city}}
     </p>
 
     <p class="mb-1">
-      {{property.FType}} <span *ngIf="property.FType !== 'Unfurnished'">Furnished</span> | Ready to Move
+      {{property.furnishingType}} <span *ngIf="property.furnishingType !== 'Unfurnished'">Furnished</span> | Ready to Move
     </p>
 
     <hr class="my-2">
 
-    <h6 class="mb-0">Price: <span class="font-highlight">{{property.Price}} USD.</span>
-     | Area: <span class="font-highlight">{{property.BuiltArea}} Sq Ft</span>
+    <h6 class="mb-0">Price: <span class="font-highlight">{{property.price}} USD.</span>
+     | Area: <span class="font-highlight">{{property.builtArea}} Sq Ft</span>
     </h6>
   </div>
      </div>
